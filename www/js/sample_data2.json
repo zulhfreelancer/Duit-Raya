@@ -1,0 +1,26 @@
+[
+	{
+		"id" : [1, {
+			"data": {
+				"name" : "Mak Long",
+				"value" : 10
+				}
+			}]
+	},
+	{
+		"id" : [2, {
+			"data": {
+				"name" : "Ayah Long",
+				"value" : 20
+				}
+			}]
+	},
+	{
+		"id" : [3, {
+			"data": {
+				"name" : "Ayah Ngah",
+				"value" : 30
+				}
+			}]
+	}
+]

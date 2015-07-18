@@ -1,0 +1,17 @@
+<ion-view view-title="Duit Raya">
+<ion-nav-buttons side="primary">
+        <button class="button button-assertive" ng-click="doSomething()" ng-show="checked">Delete</button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a href="#/app/add" class="button button-positive">Add</a>
+    </ion-nav-buttons>
+    <ion-content>
+        <ion-list>
+            <!-- <ion-item ng-repeat="(k,v) in list" href="#/app/single/{{l.id}}"> -->
+            <ion-item ng-repeat="(k,v) in list">
+                <input type="checkbox" ng-model="v.selected" ng-change="change(v,k)" class="checkbox">
+                {{k}} {{v.data.name}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,23 @@
+[
+	{
+		"date" : 1111,
+		"data" : {
+			"name" : "Mak Long",
+			"value" : 10
+		}
+	},
+	{
+		"date" : 2222,
+		"data" : {
+			"name" : "Ayah Long",
+			"value" : 20
+		}
+	},
+	{
+		"date" : 3333,
+		"data" : {
+			"name" : "Ayah Ngah",
+			"value" : 30
+		}
+	}
+]

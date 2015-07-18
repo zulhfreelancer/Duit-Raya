@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['LocalStorageModule'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -9,48 +9,109 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
+})
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+.controller('ListCtrl', function($scope,localStorageService) {
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
+  if ( localStorageService.length() > 0 ) {
+    console.log("localStorage is exist");
+  } else {
+    console.log("localStorage is not exist. Creating one now...");
+    localStorageService.set("duitraya", []);
+  }
+  
+
+  $scope.checked = false;
+  /*
+  var list = [
+                {
+                  "date" : 1111,
+                  "data" : {
+                    "name" : "Mak Long",
+                    "value" : 10
+                  }
+                },
+                {
+                  "date" : 2222,
+                  "data" : {
+                    "name" : "Ayah Long",
+                    "value" : 20
+                  }
+                },
+                {
+                  "date" : 3333,
+                  "data" : {
+                    "name" : "Ayah Ngah",
+                    "value" : 30
+                  }
+                }
+              ];
+  */
+  var list = localStorageService.get("duitraya");
+  $scope.list = list;
+  console.log($scope.list);
+
+  $scope.selectedCounter = 0;
+  var toBeDeleted = [];
+
+  $scope.change = function (v,k) {
+      if (v.selected) {
+          $scope.checked = true;
+          $scope.selectedCounter++;
+          console.log(k);
+          toBeDeleted.push(k);
+          console.log(toBeDeleted);
+      } else {
+          $scope.selectedCounter--;
+          console.log(k);
+          toBeDeleted.pop(k);
+          console.log(toBeDeleted);
+      }
+
+      if ($scope.selectedCounter === 0) {
+        $scope.checked = false;
+      }
   };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+  $scope.doSomething = function(){
+    console.log(toBeDeleted);
+    for (var i = 0; i < toBeDeleted.length; i++) {
+      $scope.list.splice([i], 1);
+    }
+    angular.forEach($scope.list, function (item) {
+        item.selected = false;
+    });
+    $scope.checked = false;
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('SingleCtrl', function($scope, $stateParams) {
+  $scope.id = $stateParams.id;
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('AddCtrl', function($scope, $stateParams, localStorageService) {
+  $scope.add = function(data){
+
+    var newData = angular.toJson(data, true);
+    console.log(newData);
+
+    var pushThis = angular.fromJson(newData, true);
+    console.log( pushThis );
+
+    var localStorageData = localStorageService.get("duitraya");
+    console.log( angular.isArray(localStorageData) );
+
+    localStorageData.push(pushThis);
+    console.log(localStorageData);
+    
+    localStorageService.set("duitraya", localStorageData);
+    console.log( localStorageData );
+  };
+})
+
+.controller('UpdateCtrl', function($scope, $stateParams) {
+  $scope.add = function(data){
+    console.log(data.name);
+    console.log(data.value);
+  };
 });
