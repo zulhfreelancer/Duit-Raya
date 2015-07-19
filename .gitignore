@@ -5,3 +5,5 @@ node_modules/
 platforms/
 plugins/
 my-release-key.keystore
+android_release.apk
+zipalign
