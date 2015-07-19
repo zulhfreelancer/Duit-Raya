@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['LocalStorageModule'])
+angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope) {
 
