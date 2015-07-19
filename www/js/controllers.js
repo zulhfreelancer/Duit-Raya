@@ -11,7 +11,7 @@ angular.module('starter.controllers', ['LocalStorageModule'])
 
 })
 
-.controller('ListCtrl', function($scope,localStorageService) {
+.controller('ListCtrl', function($scope,localStorageService, $timeout) {
 
   if ( localStorageService.length() > 0 ) {
     console.log("localStorage is exist");
@@ -20,36 +20,22 @@ angular.module('starter.controllers', ['LocalStorageModule'])
     localStorageService.set("duitraya", []);
   }
   
-
   $scope.checked = false;
-  /*
-  var list = [
-                {
-                  "date" : 1111,
-                  "data" : {
-                    "name" : "Mak Long",
-                    "value" : 10
-                  }
-                },
-                {
-                  "date" : 2222,
-                  "data" : {
-                    "name" : "Ayah Long",
-                    "value" : 20
-                  }
-                },
-                {
-                  "date" : 3333,
-                  "data" : {
-                    "name" : "Ayah Ngah",
-                    "value" : 30
-                  }
-                }
-              ];
-  */
-  var list = localStorageService.get("duitraya");
-  $scope.list = list;
-  console.log($scope.list);
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $timeout(function(){
+      // when page loads, fetch localStorage data
+      var list = localStorageService.get("duitraya");
+      $scope.list = list;
+      console.log($scope.list);
+
+      var total = 0;
+      for (var i = 0; i < list.length; i++) {
+        total = total + list[i].data.value;
+      }
+      $scope.total = total;
+    }, 100);
+  });
 
   $scope.selectedCounter = 0;
   var toBeDeleted = [];
@@ -73,26 +59,47 @@ angular.module('starter.controllers', ['LocalStorageModule'])
       }
   };
 
-  $scope.doSomething = function(){
+  $scope.delete = function(){
     console.log(toBeDeleted);
     for (var i = 0; i < toBeDeleted.length; i++) {
+
+      var localStorageData = localStorageService.get("duitraya");
+      console.log( angular.isArray(localStorageData) );
+
+      localStorageData.splice([i], 1);
+      console.log(localStorageData);
+      
+      localStorageService.set("duitraya", localStorageData);
+      console.log( localStorageData );
+
       $scope.list.splice([i], 1);
     }
     angular.forEach($scope.list, function (item) {
         item.selected = false;
     });
     $scope.checked = false;
+
+    var total = 0;
+    var list = localStorageService.get("duitraya");
+      for (var d = 0; d < list.length; d++) {
+        total = total + list[d].data.value;
+      }
+    $scope.total = total;
   };
+
+
+
 })
 
-.controller('SingleCtrl', function($scope, $stateParams) {
-  $scope.id = $stateParams.id;
-})
-
-.controller('AddCtrl', function($scope, $stateParams, localStorageService) {
+.controller('AddCtrl', function($scope, $stateParams, localStorageService, $location) {
   $scope.add = function(data){
 
-    var newData = angular.toJson(data, true);
+    var dataTemplate = {
+                  "date" : 1111,
+                  data
+                }
+
+    var newData = angular.toJson(dataTemplate, true);
     console.log(newData);
 
     var pushThis = angular.fromJson(newData, true);
@@ -106,12 +113,56 @@ angular.module('starter.controllers', ['LocalStorageModule'])
     
     localStorageService.set("duitraya", localStorageData);
     console.log( localStorageData );
+
+    $location.path('/app');
+
   };
 })
 
-.controller('UpdateCtrl', function($scope, $stateParams) {
-  $scope.add = function(data){
+.controller('UpdateCtrl', function($scope, $stateParams, localStorageService, $location) {
+  var id = $stateParams.id;
+  $scope.id = id;
+
+  var localStorageData = localStorageService.get("duitraya");
+  var singleData = localStorageData[$scope.id];
+  $scope.data = singleData;
+
+  $scope.update = function(data){
     console.log(data.name);
     console.log(data.value);
+    console.log("ID: " + id);
+
+    // Delete old data first
+    var localStorageData = localStorageService.get("duitraya");
+    console.log( angular.isArray(localStorageData) );
+
+    localStorageData.splice(id, 1);
+    console.log(localStorageData);
+
+    localStorageService.set("duitraya", localStorageData);
+    console.log( localStorageData );
+
+    // Then recreate it
+    var dataTemplate = {
+                  "date" : 1111,
+                  data
+                }
+
+    var newData = angular.toJson(dataTemplate, true);
+    console.log(newData);
+
+    var pushThis = angular.fromJson(newData, true);
+    console.log( pushThis );
+
+    localStorageData = localStorageService.get("duitraya");
+    console.log( angular.isArray(localStorageData) );
+
+    localStorageData.push(pushThis);
+    console.log(localStorageData);
+    
+    localStorageService.set("duitraya", localStorageData);
+    console.log( localStorageData );
+
+    $location.path('/app');
   };
 });

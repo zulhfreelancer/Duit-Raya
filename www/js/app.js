@@ -42,16 +42,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
 
-  .state('app.single', {
-    url: '/single/:id',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/single.html',
-        controller: 'SingleCtrl'
-      }
-    }
-  })
-
   .state('app.add', {
     url: '/add',
     views: {

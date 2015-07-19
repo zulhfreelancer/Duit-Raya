@@ -1,14 +1,14 @@
 <ion-view view-title="Update Duit Raya">
   <ion-content>
-
+  <!-- <p>{{id}}</p> -->
     <div class="list">
 	  <label class="item item-input">
-	    <input type="text" placeholder="From" ng-model="data.name">
+	    <input type="text" placeholder="From" ng-model="data.data.name">
 	  </label>
 	  <label class="item item-input">
-	    <input type="number" placeholder="How much?" ng-model="data.value">
+	    <input type="number" placeholder="How much?" ng-model="data.data.value">
 	  </label>
-	  <button class="button button-block button-positive" ng-click="update(data)">Update</button>
+	  <button class="button button-block button-positive" ng-click="update(data.data)">Update <i class="ion-checkmark-round"></i></button>
 	</div>
 
   </ion-content>

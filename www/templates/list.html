@@ -1,16 +1,28 @@
 <ion-view view-title="Duit Raya">
 <ion-nav-buttons side="primary">
-        <button class="button button-assertive" ng-click="doSomething()" ng-show="checked">Delete</button>
+        <button class="button button-assertive" ng-click="delete()" ng-show="checked">Delete <i class="ion-trash-b"></i></button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
-        <a href="#/app/add" class="button button-positive">Add</a>
+        <a href="#/app/add" class="button button-positive">Add <i class="ion-plus-round"></i></a>
     </ion-nav-buttons>
     <ion-content>
+
+    <div class="card">
+      <div class="item item-text-wrap" style="text-align:center">
+        <h4>Total:</h4>
+        <h2>{{total}}</h2>
+      </div>
+    </div>
+
         <ion-list>
             <!-- <ion-item ng-repeat="(k,v) in list" href="#/app/single/{{l.id}}"> -->
             <ion-item ng-repeat="(k,v) in list">
-                <input type="checkbox" ng-model="v.selected" ng-change="change(v,k)" class="checkbox">
-                {{k}} {{v.data.name}}
+                <input type="checkbox" ng-model="v.selected" ng-change="change(v, k)" class="checkbox">&nbsp;
+                {{v.data.name}}
+                <span style="float:right">
+                    {{v.data.value}}
+                    <a href="#/app/update/{{k}}" class="icon-right ion-chevron-right button-clear button-dark"></a>
+                </span>
             </ion-item>
         </ion-list>
     </ion-content>
