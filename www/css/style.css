@@ -1,1 +1,9 @@
 /* Empty. Add your own CSS if you like */
+.date{
+	font-size: 10px;
+}
+
+.right-section{
+	float:right;
+	margin-top: 10px;
+}

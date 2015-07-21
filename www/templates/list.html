@@ -18,11 +18,13 @@
             <!-- <ion-item ng-repeat="(k,v) in list" href="#/app/single/{{l.id}}"> -->
             <ion-item ng-repeat="(k,v) in list">
                 <input type="checkbox" ng-model="v.selected" ng-change="change(v, k)" class="checkbox">&nbsp;
-                {{v.data.name}}
-                <span style="float:right">
-                    {{v.data.value}}
+                {{v.name}}
+                <span class="right-section">
+                    {{v.value}}
                     <a href="#/app/update/{{k}}" class="icon-right ion-chevron-right button-clear button-dark"></a>
                 </span>
+                <br/>
+                <span class="date">{{v.date}}</span>
             </ion-item>
         </ion-list>
     </ion-content>

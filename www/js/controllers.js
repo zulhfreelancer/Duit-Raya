@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
 
       var total = 0;
       for (var i = 0; i < list.length; i++) {
-        total = total + list[i].data.value;
+        total = total + list[i].value;
       }
       $scope.total = total;
     }, 100);
@@ -82,7 +82,7 @@ angular.module('starter.controllers', [])
     var total = 0;
     var list = localStorageService.get("duitraya");
       for (var d = 0; d < list.length; d++) {
-        total = total + list[d].data.value;
+        total = total + list[d].value;
       }
     $scope.total = total;
   };
@@ -92,34 +92,39 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AddCtrl', function($scope, $stateParams, localStorageService, $location) {
+  $scope.data = {"date" : new Date()};
+
   $scope.add = function(data){
 
-    var dataTemplate = {
-                  "date" : 1111,
-                  data
-                }
+    if(isNaN(data.value)) {
+      alert("Please enter valid number only");
+    } else {
+      var dataTemplate = data;
 
-    var newData = angular.toJson(dataTemplate, true);
-    console.log(newData);
+      var newData = angular.toJson(dataTemplate, true);
+      console.log(newData);
 
-    var pushThis = angular.fromJson(newData, true);
-    console.log( pushThis );
+      var pushThis = angular.fromJson(newData, true);
+      console.log( pushThis );
 
-    var localStorageData = localStorageService.get("duitraya");
-    console.log( angular.isArray(localStorageData) );
+      var localStorageData = localStorageService.get("duitraya");
+      console.log( angular.isArray(localStorageData) );
 
-    localStorageData.push(pushThis);
-    console.log(localStorageData);
-    
-    localStorageService.set("duitraya", localStorageData);
-    console.log( localStorageData );
+      localStorageData.push(pushThis);
+      console.log(localStorageData);
+      
+      localStorageService.set("duitraya", localStorageData);
+      console.log( localStorageData );
 
-    $location.path('/app');
+      $location.path('/app');
+    }
 
   };
 })
 
 .controller('UpdateCtrl', function($scope, $stateParams, localStorageService, $location) {
+  $scope.data = {"date" : new Date()};
+
   var id = $stateParams.id;
   $scope.id = id;
 
@@ -132,37 +137,38 @@ angular.module('starter.controllers', [])
     console.log(data.value);
     console.log("ID: " + id);
 
-    // Delete old data first
-    var localStorageData = localStorageService.get("duitraya");
-    console.log( angular.isArray(localStorageData) );
+    if(isNaN(data.value)) {
+      alert("Please enter valid number only");
+    } else {
+      // Delete old data first
+      var localStorageData = localStorageService.get("duitraya");
+      console.log( angular.isArray(localStorageData) );
 
-    localStorageData.splice(id, 1);
-    console.log(localStorageData);
+      localStorageData.splice(id, 1);
+      console.log(localStorageData);
 
-    localStorageService.set("duitraya", localStorageData);
-    console.log( localStorageData );
+      localStorageService.set("duitraya", localStorageData);
+      console.log( localStorageData );
 
-    // Then recreate it
-    var dataTemplate = {
-                  "date" : 1111,
-                  data
-                }
+      // Then recreate it
+      var dataTemplate = data;
 
-    var newData = angular.toJson(dataTemplate, true);
-    console.log(newData);
+      var newData = angular.toJson(dataTemplate, true);
+      console.log(newData);
 
-    var pushThis = angular.fromJson(newData, true);
-    console.log( pushThis );
+      var pushThis = angular.fromJson(newData, true);
+      console.log( pushThis );
 
-    localStorageData = localStorageService.get("duitraya");
-    console.log( angular.isArray(localStorageData) );
+      localStorageData = localStorageService.get("duitraya");
+      console.log( angular.isArray(localStorageData) );
 
-    localStorageData.push(pushThis);
-    console.log(localStorageData);
-    
-    localStorageService.set("duitraya", localStorageData);
-    console.log( localStorageData );
+      localStorageData.push(pushThis);
+      console.log(localStorageData);
+      
+      localStorageService.set("duitraya", localStorageData);
+      console.log( localStorageData );
 
-    $location.path('/app');
+      $location.path('/app');
+    }
   };
 });
