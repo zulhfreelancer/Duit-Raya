@@ -24,7 +24,8 @@
                     <a href="#/app/update/{{k}}" class="icon-right ion-chevron-right button-clear button-dark"></a>
                 </span>
                 <br/>
-                <span class="date">{{v.date}}</span>
+                <!-- <span class="date">{{v.date}}</span> -->
+                <span am-time-ago="v.date" class="date"></span>
             </ion-item>
         </ion-list>
     </ion-content>

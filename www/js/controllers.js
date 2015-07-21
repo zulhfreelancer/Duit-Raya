@@ -46,11 +46,13 @@ angular.module('starter.controllers', ['angularMoment'])
           $scope.selectedCounter++;
           console.log(k);
           toBeDeleted.push(k);
+          toBeDeleted.sort(function(a, b){return a-b;});
           console.log(toBeDeleted);
       } else {
           $scope.selectedCounter--;
           console.log(k);
           toBeDeleted.pop(k);
+          toBeDeleted.sort(function(a, b){return a-b;});
           console.log(toBeDeleted);
       }
 
@@ -60,24 +62,28 @@ angular.module('starter.controllers', ['angularMoment'])
   };
 
   $scope.delete = function(){
+    // sort the toBeDeleted in ASC order
     console.log(toBeDeleted);
+
+    var localStorageData = localStorageService.get("duitraya");
+    console.log( angular.isArray(localStorageData) );
+
     for (var i = 0; i < toBeDeleted.length; i++) {
 
-      var localStorageData = localStorageService.get("duitraya");
-      console.log( angular.isArray(localStorageData) );
-
-      localStorageData.splice([i], 1);
+      localStorageData.splice([i-1], 1);
       console.log(localStorageData);
-      
+
       localStorageService.set("duitraya", localStorageData);
       console.log( localStorageData );
 
-      $scope.list.splice([i], 1);
+      $scope.list.splice([i-1], 1);
     }
+
     angular.forEach($scope.list, function (item) {
         item.selected = false;
     });
     $scope.checked = false;
+    toBeDeleted = [];
 
     var total = 0;
     var list = localStorageService.get("duitraya");
